@@ -32,7 +32,6 @@ import org.sonar.api.measures.{CoreMetrics, CoverageMeasuresBuilder, Measure}
 import org.sonar.api.resources.{File, Project, Resource}
 import org.sonar.api.scan.filesystem.PathResolver
 import org.sonar.api.utils.log.Loggers
-import org.sonar.plugins.scala.language.Scala
 
 import scala.collection.JavaConversions._
 
@@ -44,13 +43,13 @@ import scala.collection.JavaConversions._
 class ScoverageSensor(settings: Settings, pathResolver: PathResolver, fileSystem: FileSystem)
   extends Sensor with CoverageExtension {
 
-  val scala = Scala.INSTANCE
+  val scalaLanguageKey = "scala"
 
   private val log = Loggers.get(classOf[ScoverageSensor])
   protected val SCOVERAGE_REPORT_PATH_PROPERTY = "sonar.scoverage.reportPath"
   protected lazy val scoverageReportParser: ScoverageReportParser = XmlScoverageReportParser()
 
-  override def shouldExecuteOnProject(project: Project): Boolean = fileSystem.languages().contains(scala.getKey)
+  override def shouldExecuteOnProject(project: Project): Boolean = fileSystem.languages().contains(scalaLanguageKey)
 
   override def analyse(project: Project, context: SensorContext) {
     scoverageReportPath match {
@@ -153,7 +152,7 @@ class ScoverageSensor(settings: Settings, pathResolver: PathResolver, fileSystem
     val pathPredicate = if (new io.File(path).isAbsolute) p.hasAbsolutePath(path) else p.matchesPathPattern("**/" + path)
     val files = fileSystem.inputFiles(p.and(
       pathPredicate,
-      p.hasLanguage(scala.getKey),
+      p.hasLanguage(scalaLanguageKey),
       p.hasType(InputFile.Type.MAIN))).toList
 
     files.headOption match {
