@@ -19,11 +19,12 @@
  */
 package com.buransky.plugins.scoverage
 
-import com.buransky.plugins.scoverage.language.Scala
+//import com.buransky.plugins.scoverage.language.Scala
 import com.buransky.plugins.scoverage.measure.ScalaMetrics
 import com.buransky.plugins.scoverage.sensor.ScoverageSensor
 import com.buransky.plugins.scoverage.widget.ScoverageWidget
 import org.sonar.api.{Extension, SonarPlugin}
+//import org.sonar.plugins.scala.language.Scala
 
 import scala.collection.JavaConversions._
 import scala.collection.mutable.ListBuffer
@@ -34,8 +35,9 @@ import scala.collection.mutable.ListBuffer
  * @author Rado Buransky
  */
 class ScoveragePlugin extends SonarPlugin {
+
   override def getExtensions: java.util.List[Class[_ <: Extension]] = ListBuffer(
-    classOf[Scala],
+//    classOf[Scala],
     classOf[ScalaMetrics],
     classOf[ScoverageSensor],
     classOf[ScoverageWidget]

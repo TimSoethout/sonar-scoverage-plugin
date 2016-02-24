@@ -21,7 +21,6 @@ package com.buransky.plugins.scoverage.sensor
 
 import java.io
 
-import com.buransky.plugins.scoverage.language.Scala
 import com.buransky.plugins.scoverage.measure.ScalaMetrics
 import com.buransky.plugins.scoverage.util.LogUtil
 import com.buransky.plugins.scoverage.xml.XmlScoverageReportParser
@@ -33,6 +32,7 @@ import org.sonar.api.measures.{CoreMetrics, CoverageMeasuresBuilder, Measure}
 import org.sonar.api.resources.{File, Project, Resource}
 import org.sonar.api.scan.filesystem.PathResolver
 import org.sonar.api.utils.log.Loggers
+import org.sonar.plugins.scala.language.Scala
 
 import scala.collection.JavaConversions._
 
@@ -41,8 +41,11 @@ import scala.collection.JavaConversions._
  *
  * @author Rado Buransky
  */
-class ScoverageSensor(settings: Settings, pathResolver: PathResolver, fileSystem: FileSystem, scala: Scala)
+class ScoverageSensor(settings: Settings, pathResolver: PathResolver, fileSystem: FileSystem)
   extends Sensor with CoverageExtension {
+
+  val scala = Scala.INSTANCE
+
   private val log = Loggers.get(classOf[ScoverageSensor])
   protected val SCOVERAGE_REPORT_PATH_PROPERTY = "sonar.scoverage.reportPath"
   protected lazy val scoverageReportParser: ScoverageReportParser = XmlScoverageReportParser()
